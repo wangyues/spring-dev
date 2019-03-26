@@ -1,34 +1,14 @@
 package com.cisco.controller;
 
+import com.cisco.excutor.Excutor;
 import com.webex.webapp.common.util.security.AppTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
-
-class UserInfo {
-    private String username;
-
-    private String password;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-}
 
 class HttpResponse<Type> {
     private int code;
@@ -81,17 +61,6 @@ public class HomeController {
 
     @CrossOrigin
     @ResponseBody
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
-    public HttpResponse login(@RequestBody UserInfo userInfo) {
-        if (userInfo.getUsername().equals("wangyue") && userInfo.getPassword().equals("123456")) {
-            return HttpResponse.ok(null);
-        } else {
-            return HttpResponse.fail(null);
-        }
-    }
-
-    @CrossOrigin
-    @ResponseBody
     @RequestMapping(value = "/apptoken", method = RequestMethod.GET)
     public HttpResponse getApptoken(@RequestParam Map<String, String> params) {
         String appName = null;
@@ -108,5 +77,25 @@ public class HomeController {
             System.out.println(e.toString());
             return HttpResponse.fail(null);
         }
+    }
+
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(value = "/site", method = RequestMethod.GET)
+    public HttpResponse getSiteId(@RequestParam Map<String, String> params) {
+        String site = params.get("site");
+        try {
+            String appToken = "iii";//AppTokenUtil.makeTicket2("APP_ADDIN");
+            Map<String, Object> pyparam = new HashMap<>();
+            pyparam.put("cmd", "GET_SITE");
+            pyparam.put("site", site);
+            pyparam.put("token", appToken);
+            Excutor.execute(pyparam);
+        } catch (Exception e) {
+            LOG.error("get apptoke failed", e);
+            System.out.println(e.toString());
+            return HttpResponse.fail(null);
+        }
+        return HttpResponse.fail(null);
     }
 }
