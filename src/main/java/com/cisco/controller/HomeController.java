@@ -1,7 +1,7 @@
 package com.cisco.controller;
 
 import com.cisco.excutor.Excutor;
-//import com.webex.webapp.common.util.security.AppTokenUtil;
+import com.webex.webapp.common.util.security.AppTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -71,7 +71,7 @@ public class HomeController {
             appName = appNameObj.toString();
         }
         try {
-            return HttpResponse.ok(null);//AppTokenUtil.makeTicket2(appName));
+            return HttpResponse.ok(AppTokenUtil.makeTicket2(appName));
         } catch (Exception e) {
             LOG.error("get apptoke failed", e);
             System.out.println(e.toString());
