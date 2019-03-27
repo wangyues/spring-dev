@@ -33,18 +33,19 @@ fi
 #==============================================================================
 
 #set CLASSPATH
-MYCAT_CLASSPATH="$SPRING_HOME/conf:$SPRING_HOME/lib/classes"
+SPRING_CLASSPATH="$SPRING_HOME/conf:$SPRING_HOME/lib/classes"
 for i in "$SPRING_HOME"/lib/*.jar
 do
-    MYCAT_CLASSPATH="$MYCAT_CLASSPATH:$i"
+    SPRING_CLASSPATH="$SPRING_CLASSPATH:$i"
 done
 #==============================================================================
 #java.compiler=NONE关闭了JIT
 #startup Server
 RUN_CMD="\"$JAVA_HOME/bin/java\""
 RUN_CMD="$RUN_CMD -DSPRING_HOME=\"$SPRING_HOME\""
+RUN_CMD="$RUN_CMD -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8089"
 RUN_CMD="$RUN_CMD -Djava.compiler=NONE"
-RUN_CMD="$RUN_CMD -classpath \"$MYCAT_CLASSPATH\""
+RUN_CMD="$RUN_CMD -classpath \"$SPRING_CLASSPATH\""
 RUN_CMD="$RUN_CMD $JAVA_OPTS"
 RUN_CMD="$RUN_CMD com.cisco.Application $@"
 RUN_CMD="$RUN_CMD >> \"$SPRING_HOME/logs/console.log\" 2>&1 &"

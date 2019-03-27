@@ -1,6 +1,6 @@
 package com.cisco.controller;
 
-import com.cisco.excutor.Excutor;
+import com.cisco.excutor.Executor;
 import com.webex.webapp.common.util.security.AppTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,12 +85,12 @@ public class HomeController {
     public HttpResponse getSiteId(@RequestParam Map<String, String> params) {
         String site = params.get("site");
         try {
-            String appToken = "iii";//AppTokenUtil.makeTicket2("APP_ADDIN");
+            String appToken = AppTokenUtil.makeTicket2("APP_ADDIN");
             Map<String, Object> pyparam = new HashMap<>();
             pyparam.put("cmd", "GET_SITE");
             pyparam.put("site", site);
             pyparam.put("token", appToken);
-            Excutor.execute(pyparam);
+            Executor.execute(pyparam);
         } catch (Exception e) {
             LOG.error("get apptoke failed", e);
             System.out.println(e.toString());
