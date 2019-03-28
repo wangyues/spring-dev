@@ -90,12 +90,12 @@ public class HomeController {
             pyparam.put("cmd", "GET_SITE");
             pyparam.put("site", site);
             pyparam.put("token", appToken);
-            Executor.execute(pyparam);
+            Map<String, Object> result = Executor.execute(pyparam);
+            return HttpResponse.ok(result);
         } catch (Exception e) {
             LOG.error("get apptoke failed", e);
             System.out.println(e.toString());
             return HttpResponse.fail(null);
         }
-        return HttpResponse.fail(null);
     }
 }
